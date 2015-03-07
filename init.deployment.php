@@ -9,7 +9,7 @@
  *
  * @category   Examinr
  * @author     Pieter Hordijk <pieter@mindwarp.nl>
- * @copyright  Copyright (c) 2015 Mindwarp Rotterdam <http://mindwarp.nl>
+ * @copyright  Copyright (c) 2015 Pieter Hordijk <https://github.com/PeeHaa>
  * @license    See the LICENSE file
  * @version    1.0.0
  */
