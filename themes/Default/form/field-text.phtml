@@ -1,0 +1,12 @@
+<div class="form-group <?php if($this->field->hasErrors()) echo 'has-error' ?>">
+    <label class="col-lg-3 control-label">
+        <?= $this->translate($this->namespace . '.' . $this->name); ?>
+        <?php if ($this->field->isRequired()) echo ' *'; ?>
+    </label>
+    <div class="col-lg-9">
+        <input type="text" name="<?= $this->name; ?>" class="form-control" value="<?= $this->escape($this->field->getValue()); ?>" placeholder="<?= $this->translate($this->namespace . '.' . $this->name); ?>">
+        <?php if($this->field->hasErrors()) { ?>
+            <span class="help-block has-error"><?= $this->translate('form.error.' . $this->field->getErrorType(), $this->field->getErrorData()); ?></span>
+        <?php } ?>
+    </div>
+</div>
