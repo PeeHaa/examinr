@@ -13,6 +13,8 @@ namespace Examinr;
 
 use Examinr\Network\Http\Request;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 /**
  * Setup the project autoloader
  */
@@ -34,3 +36,9 @@ if (php_sapi_name() === 'cli') {
  * Setup the request object
  */
 $request = Request::createFromGlobals();
+
+/**
+ * Setup the session
+ */
+session_set_cookie_params (0, '/', '.' . $request->getHost(), $request->isSecure(), true);
+$session = new Session();
