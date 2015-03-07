@@ -10,3 +10,5 @@
 .header > div { padding-left: 0; padding-right: 0; }
 
 .has-error { color: #ff0039; }
+
+.floatThead-container thead { background: white; }
