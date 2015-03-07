@@ -10,3 +10,8 @@
  * @version    1.0.0
  */
 namespace Examinr;
+
+/**
+ * Setup the project autoloader
+ */
+require_once __DIR__ . '/vendor/autoload.php';
