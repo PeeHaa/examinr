@@ -51,9 +51,7 @@ class Index
      */
     public function index(Html $template)
     {
-        $this->response->setContent($template->renderPage('/index.phtml', [
-            'barePage' => true,
-        ]));
+        $this->response->setContent($template->renderPage('/index.phtml'));
 
         $this->response->setStatusCode(Response::HTTP_OK);
         $this->response->headers->set('Content-Type', 'text/html');
