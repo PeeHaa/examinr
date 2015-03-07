@@ -6,7 +6,7 @@
  *
  * @category   Examinr
  * @author     Pieter Hordijk <pieter@mindwarp.nl>
- * @copyright  Copyright (c) 2015 Mindwarp Rotterdam <http://mindwarp.nl>
+ * @copyright  Copyright (c) 2015 Pieter Hordijk <https://github.com/PeeHaa>
  * @license    See the LICENSE file
  * @version    1.0.0
  */
@@ -23,6 +23,13 @@ error_reporting(-1);
  * Setup the timezone
  */
 date_default_timezone_set('Europe/Amsterdam');
+
+/**
+ * Should the routes files be reloaded?
+ *
+ * Disable this on production
+ */
+$reloadRoutes = true;
 
 /**
  * Setup database connection

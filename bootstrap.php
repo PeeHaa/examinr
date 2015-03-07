@@ -13,8 +13,14 @@ namespace Examinr;
 
 use Examinr\Network\Http\Request;
 use Examinr\Auth\User;
+use Examinr\Router\Router;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+
+use FastRoute\RouteCollector;
+use FastRoute\RouteParser\Std as RouteParser;
+use FastRoute\DataGenerator\GroupCountBased as RouteDataGenerator;
+use FastRoute\Dispatcher\GroupCountBased as RouteDispatcher;
 
 /**
  * Setup the project autoloader
@@ -48,3 +54,12 @@ $session = new Session();
  * Setup the user object
  */
 $user = new User($session);
+
+/**
+ * Setup the router
+ */
+$cacheFile      = $user->isLoggedIn() ? 'routes-logged-in.php' : 'routes.php';
+$routeCollector = new RouteCollector(new RouteParser(), new RouteDataGenerator());
+$router         = new Router($routeCollector, function($dispatchData) {
+    return new RouteDispatcher($dispatchData);
+}, __DIR__ . '/cache/' . $cacheFile, $reloadRoutes);
