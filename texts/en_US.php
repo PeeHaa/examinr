@@ -17,6 +17,7 @@ $texts = [
     'login.form.field.email'                                            => 'Email',
     'login.form.field.password'                                         => 'Password',
     'login.form.field.rememberme'                                       => 'Remember me',
+    'login.form.field.forgot-password'                                  => 'Forgot password?',
     'login.form.field.submit'                                           => 'Log in',
 
     'page.not-found.title'                                              => 'Not found',
