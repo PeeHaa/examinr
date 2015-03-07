@@ -29,6 +29,7 @@ class User
      */
     const ROLE_GUEST = 0;
     const ROLE_USER  = 10;
+    const ROLE_ADMIN = 20;
 
     /**
      * @var int The cost used to hash passwords
@@ -81,7 +82,7 @@ class User
             return self::ROLE_GUEST;
         }
 
-        return $this->session->get('user')['role'];
+        return self::ROLE_USER;
     }
 
     /**

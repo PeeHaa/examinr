@@ -102,7 +102,29 @@ class FrontController
 
         $controller = new $callback[0]($this->response, $this->session);
 
+        $vars = $this->addColons($vars);
+
         return $this->executor->execute([$controller, $callback[1]], $vars);
+    }
+
+    /**
+     * Prepares the URL path variable to be used by Auryn to inject
+     *
+     * All keys in the array will have a colon prepended
+     *
+     * @param array $vars The vars to prepare
+     *
+     * @return array The path variables with the colons prepended to the keys
+     */
+    private function addColons(array $vars)
+    {
+        $vars = array_flip($vars);
+
+        array_walk($vars, function(&$value, $key) {
+            $value = ':' . $value;
+        });
+
+        return array_flip($vars);
     }
 
     /**

@@ -1,0 +1,24 @@
+<div class="jumbotron">
+    <h1><?= $this->translate('site.name'); ?></h1>
+    <p><?= $this->translate('site.description'); ?></p>
+    <p><a class="btn btn-primary btn-lg" href="https://github.com/PeeHaa/examinr" target="_blank"><?= $this->translate('site.github'); ?></a></p>
+</div>
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <form class="form-horizontal" method="post" action="/login">
+            <input type="hidden" name="csrf-token" value="<?= $this->escape(base64_encode($this->csrfToken->get())); ?>">
+            <fieldset>
+                <legend><?= $this->translate('login.form.title'); ?></legend>
+                <?php $this->formBuilder->render($this->form, 'login.form.field'); ?>
+                <div class="form-group">
+                    <div class="col-lg-9 col-lg-offset-3">
+                        <button type="submit" class="btn btn-primary"><?= $this->translate('login.form.field.submit'); ?></button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col-lg-3"></div>
+</div>

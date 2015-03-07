@@ -21,10 +21,17 @@ $router
 
 if (!$user->isLoggedIn()) {
     $router
-        ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
+        ->get('/', ['Examinr\Presentation\Controller\Auth', 'login'])
+        ->post('/login', ['Examinr\Presentation\Controller\Auth', 'doLogIn'])
+        ->get('/forgot-password', ['Examinr\Presentation\Controller\Auth', 'forgotPassword'])
+        ->post('/forgot-password', ['Examinr\Presentation\Controller\Auth', 'doForgotPassword'])
+        ->get('/forgot-password/sent', ['Examinr\Presentation\Controller\Auth', 'forgotPasswordSent'])
+        ->get('/reset-password/success', ['Examinr\Presentation\Controller\Auth', 'resetPasswordSuccess'])
+        ->get('/reset-password/{token}', ['Examinr\Presentation\Controller\Auth', 'resetPassword'])
+        ->post('/reset-password/{token}', ['Examinr\Presentation\Controller\Auth', 'doResetPassword'])
     ;
 } else {
     $router
-        ->get('/', ['Examinr\Presentation\Controller\Dashboard', 'index'])
+        ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
     ;
 }
