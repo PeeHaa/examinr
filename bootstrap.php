@@ -26,6 +26,9 @@ use FastRoute\RouteParser\Std as RouteParser;
 use FastRoute\DataGenerator\GroupCountBased as RouteDataGenerator;
 use FastRoute\Dispatcher\GroupCountBased as RouteDispatcher;
 
+use RandomLib\Factory as RandomFactory;
+use SecurityLib\Strength;
+
 use Auryn\Provider;
 
 /**
@@ -86,9 +89,37 @@ $theme = new Theme(__DIR__ . '/themes', 'Default');
 $translator = new FileTranslator(__DIR__ . '/texts', 'nl_NL');
 
 /**
+ * Setup the random generator
+ */
+$randomFactory  = new RandomFactory();
+$tokenGenerator = $randomFactory->getGenerator(new Strength(Strength::MEDIUM));
+
+/**
  * Setup the DI
  */
 $injector = new Provider();
+
+// setup the templates
+$injector->define('Examinr\\Presentation\\Template\\Html', [':basePage' => '/page.phtml']);
+
+// setup the theme loader
+$injector->alias('Examinr\\Presentation\\Theme\\Loader', get_class($theme));
+$injector->share($theme);
+
+// setup random generator
+$injector->share($tokenGenerator);
+
+// setup session
+$injector->alias('Symfony\\Component\\HttpFoundation\\Session\\SessionInterface', get_class($session));
+$injector->share($session);
+
+// setup translator
+$injector->alias('Examinr\\I18n\\Translator', get_class($translator));
+$injector->share($translator);
+
+// setup the CSRF token
+$injector->alias('Examinr\\Security\\Token', 'Examinr\\Security\\CsrfToken');
+$injector->share($theme);
 
 /**
  * Setup the front controller
