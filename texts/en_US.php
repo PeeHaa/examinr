@@ -5,6 +5,8 @@ $texts = [
     'site.description'                                                  => 'Examinr runs several code quality tools on your code bases and informs you when there are problems.',
     'site.github'                                                       => 'Project on GitHub',
 
+    'navigation.mobile.toggle'                                          => 'Toggle navigation',
+
     'form.error.required'                                               => 'This is a required field',
     'form.error.unique'                                                 => 'This value should be unique',
     'form.error.options'                                                => 'Invalid option chosen',
