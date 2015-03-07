@@ -15,7 +15,16 @@
 namespace Examinr;
 
 $router
-    ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
     ->get('/not-found', ['Examinr\Presentation\Controller\Error', 'notFound'])
     ->get('/method-not-allowed', ['Examinr\Presentation\Controller\Error', 'notAllowed'])
 ;
+
+if (!$user->isLoggedIn()) {
+    $router
+        ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
+    ;
+} else {
+    $router
+        ->get('/', ['Examinr\Presentation\Controller\Dashboard', 'index'])
+    ;
+}
