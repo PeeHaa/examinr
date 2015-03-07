@@ -8,3 +8,5 @@
 
 .header { margin-left: 0; margin-right: 0; }
 .header > div { padding-left: 0; padding-right: 0; }
+
+.has-error { color: #ff0039; }
