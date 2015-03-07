@@ -51,7 +51,7 @@ class FrontController
      * @param \Symfony\Component\HttpFoundation\Session\Session $session  The session handler
      * @param \Auryn\Provider                                   $executor The DI executor
      */
-    public function __construct(Router $router, Response $response, Session $session, Executor $executor)
+    public function __construct(Router $router, Response $response, Session $session, Provider $executor)
     {
         $this->router   = $router;
         $this->response = $response;
