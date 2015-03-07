@@ -20,3 +20,10 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Setup the environment
  */
 require_once __DIR__ . '/init.deployment.php';
+
+/**
+ * Prevent further execution when on CLI
+ */
+if (php_sapi_name() === 'cli') {
+    return;
+}
