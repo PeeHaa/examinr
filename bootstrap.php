@@ -14,6 +14,7 @@ namespace Examinr;
 use Examinr\Network\Http\Request;
 use Examinr\Auth\User;
 use Examinr\Router\Router;
+use Examinr\Presentation\Theme\Theme;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -68,3 +69,8 @@ $router         = new Router($routeCollector, function($dispatchData) {
  * Load routes
  */
 require_once __DIR__ . '/routes.php';
+
+/**
+ * Setup the theme
+ */
+$theme = new Theme(__DIR__ . '/themes', 'Default');
