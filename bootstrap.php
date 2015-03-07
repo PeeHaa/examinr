@@ -16,13 +16,17 @@ use Examinr\Auth\User;
 use Examinr\Router\Router;
 use Examinr\Presentation\Theme\Theme;
 use Examinr\I18n\FileTranslator;
+use Examinr\Router\FrontController;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std as RouteParser;
 use FastRoute\DataGenerator\GroupCountBased as RouteDataGenerator;
 use FastRoute\Dispatcher\GroupCountBased as RouteDispatcher;
+
+use Auryn\Provider;
 
 /**
  * Setup the project autoloader
@@ -80,3 +84,18 @@ $theme = new Theme(__DIR__ . '/themes', 'Default');
  * Setup i18n
  */
 $translator = new FileTranslator(__DIR__ . '/texts', 'nl_NL');
+
+/**
+ * Setup the DI
+ */
+$injector = new Provider();
+
+/**
+ * Setup the front controller
+ */
+$frontController = new FrontController($router, new Response(), $session, $injector);
+
+/**
+ * Run the application
+ */
+$frontController->run($request);
