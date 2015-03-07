@@ -109,6 +109,9 @@ $injector->share($theme);
 // setup random generator
 $injector->share($tokenGenerator);
 
+// setup user
+$injector->share($user);
+
 // setup session
 $injector->alias('Symfony\\Component\\HttpFoundation\\Session\\SessionInterface', get_class($session));
 $injector->share($session);
