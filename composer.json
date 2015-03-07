@@ -17,6 +17,10 @@
     },
     "require": {
         "php": ">=5.5",
+        "symfony/http-foundation": "2.6.*",
+        "nikic/fast-route": "0.3.*",
+        "ircmaxell/random-lib": "1.0.0",
+        "swiftmailer/swiftmailer": "5.3.*",
         "squizlabs/php_codesniffer": "2.*",
         "phpmd/phpmd" : "@stable"
     }
