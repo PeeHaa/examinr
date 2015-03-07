@@ -12,6 +12,7 @@
 namespace Examinr;
 
 use Examinr\Network\Http\Request;
+use Examinr\Auth\User;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -42,3 +43,8 @@ $request = Request::createFromGlobals();
  */
 session_set_cookie_params (0, '/', '.' . $request->getHost(), $request->isSecure(), true);
 $session = new Session();
+
+/**
+ * Setup the user object
+ */
+$user = new User($session);
