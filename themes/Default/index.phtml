@@ -1,12 +1,40 @@
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            https://bootswatch.com/cosmo/
-        </div>
+<div class="jumbotron">
+    <h1><?= $this->translate('site.name'); ?></h1>
+    <p><?= $this->translate('site.description'); ?></p>
+    <p><a class="btn btn-primary btn-lg" href="https://github.com/PeeHaa/examinr" target="_blank"><?= $this->translate('site.github'); ?></a></p>
+</div>
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <form class="form-horizontal" method="post" action="/login">
+            <input type="hidden" name="csrf-token" value="<?= $this->escape(base64_encode($this->csrfToken->get())); ?>">
+            <fieldset>
+                <legend><?= $this->translate('login.form.title'); ?></legend>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label"><?= $this->translate('login.form.field.email'); ?></label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" placeholder="<?= $this->translate('login.form.field.email'); ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label"><?= $this->translate('login.form.field.password'); ?></label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" placeholder="<?= $this->translate('login.form.field.password'); ?>">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> <?= $this->translate('login.form.field.rememberme'); ?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-primary"><?= $this->translate('login.form.field.submit'); ?></button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            ./vendor/bin/phpcs --standard=PSR2 /srv/www/CmsGenerator/www/src
-        </div>
-    </div>
+    <div class="col-lg-3"></div>
 </div>
