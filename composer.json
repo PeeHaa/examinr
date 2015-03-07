@@ -1,0 +1,23 @@
+{
+    "name": "peehaa/examinr",
+    "description": "Self hosted open source code quality analyzer and GUI",
+    "version": "1.0.0",
+    "type": "application",
+    "keywords": ["code quality", "cs"],
+    "homepage": "https://github.com/PeeHaa/examinr",
+    "license": "See the LICENSE file",
+    "authors": [
+        {
+            "name": "Pieter Hordijk",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Examinr\\": "src/"}
+    },
+    "require": {
+        "php": ">=5.5",
+        "squizlabs/php_codesniffer": "2.*",
+        "phpmd/phpmd" : "@stable"
+    }
+}
