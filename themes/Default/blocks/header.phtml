@@ -17,18 +17,23 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                         <?php if (!isset($this->barePage)) { ?>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">Link</a></li>
+                                <li class="active"><a href="/"><?= $this->translate('navigation.item.tasks'); ?> <span class="sr-only"><?= $this->translate('navigation.current'); ?></span></a></li>
+                                <li><a href="/projects"><?= $this->translate('navigation.item.projects'); ?></a></li>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('navigation.item.settings'); ?> <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
+                                        <li><a href="#"><?= $this->translate('navigation.item.settings.add-project'); ?></a></li>
+                                        <li><a href="#"><?= $this->translate('navigation.item.settings.users'); ?></a></li>
+                                        <li><a href="#"><?= $this->translate('navigation.item.settings.maintenance'); ?></a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
+                                        <li><a href="#"><?= $this->translate('navigation.item.settings.userinfo'); ?></a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#">One more separated link</a></li>
+                                        <li>
+                                            <form action="/logout" method="post">
+                                                <input type="hidden" name="csrf-token" value="<?= $this->escape(base64_encode($this->csrfToken->get())); ?>">
+                                                <input type="submit" name="submit" value="<?= $this->translate('navigation.item.settings.logout'); ?>" class="logout">
+                                            </form>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>

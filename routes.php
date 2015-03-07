@@ -32,6 +32,8 @@ if (!$user->isLoggedIn()) {
     ;
 } else {
     $router
+        ->post('/logout', ['Examinr\Presentation\Controller\Auth', 'doLogOut'])
+
         ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
     ;
 }

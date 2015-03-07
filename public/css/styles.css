@@ -12,3 +12,34 @@
 .has-error { color: #ff0039; }
 
 .floatThead-container thead { background: white; }
+
+.dropdown-menu > li .logout {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333333;
+    white-space: nowrap;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-menu > li .logout:hover {
+    color: #ffffff;
+    background-color: #2780e3;
+}
+
+@media (max-width: 767px) {
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li .logout {
+        color: #ffffff;
+        padding: 5px 15px 5px 25px;
+     }
+
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li .logout:hover {
+        background: #1967be;
+     }
+}

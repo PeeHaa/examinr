@@ -6,6 +6,15 @@ $texts = [
     'site.github'                                                       => 'Project on GitHub',
 
     'navigation.mobile.toggle'                                          => 'Toggle navigation',
+    'navigation.current'                                                => '(current)',
+    'navigation.item.tasks'                                             => 'Tasks',
+    'navigation.item.projects'                                          => 'Projects',
+    'navigation.item.settings'                                          => 'Settings',
+    'navigation.item.settings.add-project'                              => 'Add project',
+    'navigation.item.settings.users'                                    => 'Users',
+    'navigation.item.settings.maintenance'                              => 'Maintenance',
+    'navigation.item.settings.userinfo'                                 => 'User info',
+    'navigation.item.settings.logout'                                   => 'Log out',
 
     'form.error.required'                                               => 'This is a required field',
     'form.error.unique'                                                 => 'This value should be unique',
