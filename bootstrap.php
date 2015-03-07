@@ -86,7 +86,7 @@ $theme = new Theme(__DIR__ . '/themes', 'Default');
 /**
  * Setup i18n
  */
-$translator = new FileTranslator(__DIR__ . '/texts', 'nl_NL');
+$translator = new FileTranslator(__DIR__ . '/texts', 'en_US');
 
 /**
  * Setup the random generator
