@@ -17,6 +17,7 @@ use Examinr\Router\Router;
 use Examinr\Presentation\Theme\Theme;
 use Examinr\I18n\FileTranslator;
 use Examinr\Router\FrontController;
+use Examinr\Security\CsrfToken;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,32 +96,35 @@ $randomFactory  = new RandomFactory();
 $tokenGenerator = $randomFactory->getGenerator(new Strength(Strength::MEDIUM));
 
 /**
+ * Setup the CSRF token
+ */
+$csrfToken = new CsrfToken($tokenGenerator, $session);
+
+/**
+ * Setup the mailer
+ */
+$swiftTransport = \Swift_MailTransport::newInstance();
+$swiftMailer    = \Swift_Mailer::newInstance($swiftTransport);
+
+/**
  * Setup the DI
  */
 $injector = new Provider();
-
-// setup the templates
+$injector->define('Examinr\\Mail\\Mailer', [':mailer' => $swiftMailer]);
+$injector->define('Examinr\\Form\\Builder', ['template' => 'Examinr\\Presentation\\Template\\Html']);
 $injector->define('Examinr\\Presentation\\Template\\Html', [':basePage' => '/page.phtml']);
-
-// setup the theme loader
 $injector->alias('Examinr\\Presentation\\Theme\\Loader', get_class($theme));
+$injector->share($request);
 $injector->share($theme);
-
-// setup random generator
 $injector->share($tokenGenerator);
-
-// setup user
+$injector->alias('Examinr\\Security\\Token', get_class($csrfToken));
+$injector->share($csrfToken);
 $injector->share($user);
-
-// setup session
+$injector->share($dbConnection);
 $injector->alias('Symfony\\Component\\HttpFoundation\\Session\\SessionInterface', get_class($session));
 $injector->share($session);
-
-// setup translator
 $injector->alias('Examinr\\I18n\\Translator', get_class($translator));
 $injector->share($translator);
-
-// setup the CSRF token
 $injector->alias('Examinr\\Security\\Token', 'Examinr\\Security\\CsrfToken');
 $injector->share($theme);
 
