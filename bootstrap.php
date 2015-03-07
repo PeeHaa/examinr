@@ -11,6 +11,8 @@
  */
 namespace Examinr;
 
+use Examinr\Network\Http\Request;
+
 /**
  * Setup the project autoloader
  */
@@ -27,3 +29,8 @@ require_once __DIR__ . '/init.deployment.php';
 if (php_sapi_name() === 'cli') {
     return;
 }
+
+/**
+ * Setup the request object
+ */
+$request = Request::createFromGlobals();
