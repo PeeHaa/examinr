@@ -63,3 +63,8 @@ $routeCollector = new RouteCollector(new RouteParser(), new RouteDataGenerator()
 $router         = new Router($routeCollector, function($dispatchData) {
     return new RouteDispatcher($dispatchData);
 }, __DIR__ . '/cache/' . $cacheFile, $reloadRoutes);
+
+/**
+ * Load routes
+ */
+require_once __DIR__ . '/routes.php';
