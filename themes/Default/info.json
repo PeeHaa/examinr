@@ -1,0 +1,14 @@
+{
+    "name": "Default",
+    "description": "This is the default theme of the project",
+    "version": "1.0.0",
+    "website": "https://github.com/PeeHaa/Examinr",
+    "authors": [
+        {
+            "name": "Pieter Hordijk",
+            "role": "Lead developer",
+            "website": "https://github.com/PeeHaa",
+            "email": "info@pieterhordijk.com"
+        }
+    ]
+}
