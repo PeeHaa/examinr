@@ -15,6 +15,7 @@ use Examinr\Network\Http\Request;
 use Examinr\Auth\User;
 use Examinr\Router\Router;
 use Examinr\Presentation\Theme\Theme;
+use Examinr\I18n\FileTranslator;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -74,3 +75,8 @@ require_once __DIR__ . '/routes.php';
  * Setup the theme
  */
 $theme = new Theme(__DIR__ . '/themes', 'Default');
+
+/**
+ * Setup i18n
+ */
+$translator = new FileTranslator(__DIR__ . '/texts', 'nl_NL');
