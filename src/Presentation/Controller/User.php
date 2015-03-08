@@ -7,8 +7,8 @@
  * @category   Examinr
  * @package    Presentation
  * @subpackage Controller
- * @author     Pieter Hordijk <pieter@mindwarp.nl>
- * @copyright  Copyright (c) 2015 Mindwarp Rotterdam <http://mindwarp.nl>
+ * @author     Pieter Hordijk <info@pieterhordijk.com>
+ * @copyright  Copyright (c) 2015 Pieter Hordijk <https://github.com/PeeHaa>
  * @license    See the LICENSE file
  * @version    1.0.0
  */
@@ -29,7 +29,7 @@ use Examinr\Form\Implementation\EditUser as EditUserForm;
  * @category   Examinr
  * @package    Presentation
  * @subpackage Controller
- * @author     Pieter Hordijk <pieter@mindwarp.nl>
+ * @author     Pieter Hordijk <info@pieterhordijk.com>
  */
 class User
 {

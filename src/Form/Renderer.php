@@ -18,7 +18,7 @@ use Examinr\Form\Form;
 /**
  * Interface for form builders
  *
- * @category   MindwarpLib
+ * @category   Examinr
  * @package    Form
  * @author     Pieter Hordijk <info@pieterhordijk.com>
  */
