@@ -17,7 +17,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                         <?php if (!isset($this->barePage)) { ?>
                             <ul class="nav navbar-nav">
-                                <li <?php if ($this->request->matches('/')) echo 'class="active"'; ?>><a href="/"><?= $this->translate('navigation.item.tasks'); ?> <span class="sr-only"><?= $this->translate('navigation.current'); ?></span></a></li>
+                                <li <?php if ($this->request->matches('/') || $this->request->startsWith('/tasks')) echo 'class="active"'; ?>><a href="/"><?= $this->translate('navigation.item.tasks'); ?> <span class="sr-only"><?= $this->translate('navigation.current'); ?></span></a></li>
                                 <li><a href="/projects"><?= $this->translate('navigation.item.projects'); ?></a></li>
                                 <li class="dropdown <?php if ($this->request->startsWith('/settings')) echo 'active'; ?>">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('navigation.item.settings'); ?> <span class="caret"></span></a>
