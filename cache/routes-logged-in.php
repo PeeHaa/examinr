@@ -33,7 +33,7 @@
         1 => 'index',
       ),
     ),
-    '/user-info' => 
+    '/settings/user-info' => 
     array (
       'GET' => 
       array (
