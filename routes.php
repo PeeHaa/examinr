@@ -39,6 +39,6 @@ if (!$user->isLoggedIn()) {
         ->get('/settings/user-info', ['Examinr\Presentation\Controller\User', 'info'])
         ->post('/settings/user-info', ['Examinr\Presentation\Controller\User', 'doInfo'])
 
-        ->get('/result/{commit}', ['Examinr\Presentation\Controller\Task', 'result'])
+        ->get('/tasks/{commit}', ['Examinr\Presentation\Controller\Task', 'result'])
     ;
 }

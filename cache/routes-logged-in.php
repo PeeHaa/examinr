@@ -53,7 +53,7 @@
     array (
       0 => 
       array (
-        'regex' => '~^(?|/result/([^/]+))$~',
+        'regex' => '~^(?|/tasks/([^/]+))$~',
         'routeMap' => 
         array (
           2 => 

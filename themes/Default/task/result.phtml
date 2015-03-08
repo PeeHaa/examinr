@@ -51,6 +51,7 @@
         <p>Some issues can automagically be resolved using this project. The diffs of the patch will be disaplyed here.</p>
     </div>
     <div class="tab-pane fade" id="log">
+        <p>Note: this only contains the output of PHP Unit, but other tools that ran will also have output and should also be displayed somewhere in here somehow.</p>
         <?= $this->render('/task/phpunit-log.phtml'); ?>
     </div>
 </div>
