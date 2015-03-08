@@ -20,6 +20,7 @@ use Examinr\Presentation\Template\Html;
 use Examinr\Storage\MySql\User as Storage;
 use Examinr\Auth\User as Auth;
 use Examinr\Form\Builder as FormBuilder;
+use Examinr\Form\Implementation\AddUser as AddUserForm;
 use Examinr\Form\Implementation\EditUser as EditUserForm;
 
 /**
@@ -68,6 +69,63 @@ class User
     }
 
     /**
+     * Renders the add user page
+     *
+     * @param \Examinr\Presentation\Template\Html  $template    A HTML template renderer
+     * @param \Examinr\Form\Implementation\addUser $form        The add user form
+     * @param \Examinr\Form\Builder                $formBuilder The form builder
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The HTTP response
+     */
+    public function add(Html $template, AddUserForm $form, FormBuilder $formBuilder)
+    {
+        $this->response->setContent($template->renderPage('/user/add.phtml', [
+            'form'        => $form,
+            'formBuilder' => $formBuilder,
+        ]));
+
+        $this->response->setStatusCode(Response::HTTP_OK);
+        $this->response->headers->set('Content-Type', 'text/html');
+
+        return $this->response;
+    }
+
+    /**
+     * Handles the add user form
+     *
+     * @param \Examinr\Presentation\Template\Html  $template    A HTML template renderer
+     * @param \Examinr\Network\Http\Request        $request     The request object
+     * @param \Examinr\Storage\MySql\User          $storage     The user storage
+     * @param \Examinr\Auth\User                   $user        The user object
+     * @param \Examinr\Form\Implementation\AddUser $form        The add user form
+     * @param \Examinr\Form\Builder                $formBuilder The form builder
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The HTTP response
+     */
+    public function doAdd(
+        Html $template,
+        Request $request,
+        Storage $storage,
+        Auth $user,
+        AddUserForm $form,
+        FormBuilder $formBuilder
+    )
+    {
+        $form->bindRequest($request);
+
+        if (!$form->isValid()) {
+            return $this->add($template, $form, $formBuilder);
+        }
+
+        $storage->add($form, $user->rehash($form['password']->getValue()));
+
+        $this->response->setStatusCode(Response::HTTP_FOUND);
+        $this->response->headers->set('Location', $request->getSchemeAndHttpHost() . '/settings/users');
+
+        return $this->response;
+    }
+
+    /**
      * Renders the edit profile page
      *
      * @param \Examinr\Presentation\Template\Html   $template    A HTML template renderer
@@ -101,7 +159,7 @@ class User
      * @param \Examinr\Presentation\Template\Html   $template    A HTML template renderer
      * @param \Examinr\Network\Http\Request         $request     The request object
      * @param \Examinr\Storage\MySql\User           $storage     The user storage
-     * @param \Examinr\Auth\User                    $user        The usee object
+     * @param \Examinr\Auth\User                    $user        The user object
      * @param \Examinr\Form\Implementation\EditUser $form        The edit user form
      * @param \Examinr\Form\Builder                 $formBuilder The form builder
      *

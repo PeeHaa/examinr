@@ -71,4 +71,11 @@ $texts = [
     'edit-user.form.field.password'                                     => 'Password',
     'edit-user.form.field.password2'                                    => 'Retype password',
     'edit-user.form.field.submit'                                       => 'Update profile',
+
+    'add-user.form.title'                                               => 'Add user',
+    'add-user.form.field.name'                                          => 'Name',
+    'add-user.form.field.email'                                         => 'Email',
+    'add-user.form.field.password'                                      => 'Password',
+    'add-user.form.field.password2'                                     => 'Retype password',
+    'add-user.form.field.submit'                                        => 'Create',
 ];

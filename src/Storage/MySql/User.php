@@ -16,6 +16,7 @@ namespace Examinr\Storage\MySql;
 
 use Examinr\Storage\Sql\Sql;
 use Examinr\Form\Implementation\EditUser as EditUserForm;
+use Examinr\Form\Implementation\AddUser as AddUserForm;
 
 /**
  * User storage
@@ -44,6 +45,8 @@ class User implements Sql
 
     /**
      * Gets the overview of users in the system
+     *
+     * @return array List of users in the system
      */
     public function getOverview()
     {
@@ -54,6 +57,27 @@ class User implements Sql
         $stmt = $this->dbConnection->query($query);
 
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Adds a user
+     *
+     * @param \Examinr\Form\Implementation\AddUser $form     The form
+     * @param string                               $password The hashed password
+     */
+    public function add(AddUserForm $form, $password)
+    {
+        $query = 'INSERT INTO users';
+        $query.= ' (name, email, password)';
+        $query.= ' VALUES';
+        $query.= ' (:name, :email, :password)';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'name'     => $form['name']->getValue(),
+            'email'    => $form['email']->getValue(),
+            'password' => $password,
+        ]);
     }
 
     /**

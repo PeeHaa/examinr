@@ -41,6 +41,19 @@
         1 => 'overview',
       ),
     ),
+    '/settings/users/add' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'add',
+      ),
+      'POST' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'doAdd',
+      ),
+    ),
     '/settings/user-info' => 
     array (
       'GET' => 
