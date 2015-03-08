@@ -33,6 +33,19 @@
         1 => 'index',
       ),
     ),
+    '/user-info' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'info',
+      ),
+      'POST' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'doInfo',
+      ),
+    ),
   ),
   1 => 
   array (

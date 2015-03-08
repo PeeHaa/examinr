@@ -64,4 +64,11 @@ $texts = [
 
     'reset-password.success.header'                                     => 'Password changed',
     'reset-password.success.description'                                => 'Your password has been changed. Click <a href="/">here</a> to log in using your new password.',
+
+    'edit-user.form.title'                                              => 'Edit information',
+    'edit-user.form.field.name'                                         => 'Name',
+    'edit-user.form.field.email'                                        => 'Email',
+    'edit-user.form.field.password'                                     => 'Password',
+    'edit-user.form.field.password2'                                    => 'Retype password',
+    'edit-user.form.field.submit'                                       => 'Update profile',
 ];

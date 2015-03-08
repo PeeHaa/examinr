@@ -35,5 +35,8 @@ if (!$user->isLoggedIn()) {
         ->post('/logout', ['Examinr\Presentation\Controller\Auth', 'doLogOut'])
 
         ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
+
+        ->get('/user-info', ['Examinr\Presentation\Controller\User', 'info'])
+        ->post('/user-info', ['Examinr\Presentation\Controller\User', 'doInfo'])
     ;
 }
