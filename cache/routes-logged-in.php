@@ -67,6 +67,14 @@
         1 => 'doInfo',
       ),
     ),
+    '/projects' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\Project',
+        1 => 'overview',
+      ),
+    ),
   ),
   1 => 
   array (

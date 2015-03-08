@@ -43,5 +43,7 @@ if (!$user->isLoggedIn()) {
         ->post('/settings/user-info', ['Examinr\Presentation\Controller\User', 'doInfo'])
 
         ->get('/tasks/{commit}', ['Examinr\Presentation\Controller\Task', 'result'])
+
+        ->get('/projects', ['Examinr\Presentation\Controller\Project', 'overview'])
     ;
 }
