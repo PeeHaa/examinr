@@ -33,6 +33,14 @@
         1 => 'index',
       ),
     ),
+    '/settings/users' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'overview',
+      ),
+    ),
     '/settings/user-info' => 
     array (
       'GET' => 

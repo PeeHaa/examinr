@@ -50,9 +50,29 @@ class User
     /**
      * Renders the edit profile page
      *
+     * @param \Examinr\Presentation\Template\Html $template A HTML template renderer
+     * @param \Examinr\Storage\MySql\User         $storage  The user storage
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The HTTP response
+     */
+    public function overview(Html $template, Storage $storage)
+    {
+        $this->response->setContent($template->renderPage('/user/overview.phtml', [
+            'recordset' => $storage->getOverview(),
+        ]));
+
+        $this->response->setStatusCode(Response::HTTP_OK);
+        $this->response->headers->set('Content-Type', 'text/html');
+
+        return $this->response;
+    }
+
+    /**
+     * Renders the edit profile page
+     *
      * @param \Examinr\Presentation\Template\Html   $template    A HTML template renderer
      * @param \Examinr\Network\Http\Request         $request     The request object
-     * @param \Examinr\Auth\User                    $user        The use object
+     * @param \Examinr\Auth\User                    $user        The user object
      * @param \Examinr\Form\Implementation\EditUser $form        The edit user form
      * @param \Examinr\Form\Builder                 $formBuilder The form builder
      *
@@ -81,7 +101,7 @@ class User
      * @param \Examinr\Presentation\Template\Html   $template    A HTML template renderer
      * @param \Examinr\Network\Http\Request         $request     The request object
      * @param \Examinr\Storage\MySql\User           $storage     The user storage
-     * @param \Examinr\Auth\User                    $user        The use object
+     * @param \Examinr\Auth\User                    $user        The usee object
      * @param \Examinr\Form\Implementation\EditUser $form        The edit user form
      * @param \Examinr\Form\Builder                 $formBuilder The form builder
      *

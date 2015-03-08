@@ -43,6 +43,20 @@ class User implements Sql
     }
 
     /**
+     * Gets the overview of users in the system
+     */
+    public function getOverview()
+    {
+        $query = 'SELECT id, name, email';
+        $query.= ' FROM users';
+        $query.= ' ORDER BY name ASC';
+
+        $stmt = $this->dbConnection->query($query);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Updates user info
      *
      * @param int                                   $id       The id of the user to update

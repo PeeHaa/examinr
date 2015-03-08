@@ -36,6 +36,7 @@ if (!$user->isLoggedIn()) {
 
         ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
 
+        ->get('/settings/users', ['Examinr\Presentation\Controller\User', 'overview'])
         ->get('/settings/user-info', ['Examinr\Presentation\Controller\User', 'info'])
         ->post('/settings/user-info', ['Examinr\Presentation\Controller\User', 'doInfo'])
 

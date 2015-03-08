@@ -1,0 +1,29 @@
+<p>Some nice way to go to the <a href="/settings/users/add">new user page</a>.</p>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email address</th>
+            <th>Commits</th>
+            <th>Last commit</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->recordset as $index => $record) { ?>
+            <tr>
+                <td><?= $this->escape($record['name']); ?></td>
+                <td><a href="mailto:<?= $this->escape($record['email']); ?>"><?= $this->escape($record['email']); ?></a></td>
+                <?php if ($index % 2) { ?>
+                    <td>128</td>
+                    <td><a href="/tasks/dfs86s4008589d67711798a503002f786d8f8929">dfs86s4</a></td>
+                    <td><span class="label label-primary">User</span></td>
+                <?php } else { ?>
+                    <td>11978</td>
+                    <td><a href="/tasks/880c9ef008589d67711798a503002f786d8f8929">880c9ef</a></td>
+                    <td><span class="label label-success">Admin</span></td>
+                <?php } ?>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
