@@ -49,5 +49,27 @@
   ),
   1 => 
   array (
+    'GET' => 
+    array (
+      0 => 
+      array (
+        'regex' => '~^(?|/result/([^/]+))$~',
+        'routeMap' => 
+        array (
+          2 => 
+          array (
+            0 => 
+            array (
+              0 => 'Examinr\\Presentation\\Controller\\Task',
+              1 => 'result',
+            ),
+            1 => 
+            array (
+              'commit' => 'commit',
+            ),
+          ),
+        ),
+      ),
+    ),
   ),
 );
