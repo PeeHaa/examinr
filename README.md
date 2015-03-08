@@ -12,3 +12,10 @@ License
 -------
 
 See the LICENSE file.
+
+Credits and contributors
+------------------------
+
+- The main theme of the project is created by [Thomas Park][theme-author]. 
+
+[theme-author]: https://github.com/thomaspark
