@@ -100,6 +100,8 @@ class User
             return false;
         }
 
+        $this->logOut();
+
         $this->session->set('user', $user);
 
         return true;
