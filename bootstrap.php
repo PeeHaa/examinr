@@ -19,6 +19,8 @@ use Examinr\I18n\FileTranslator;
 use Examinr\Router\FrontController;
 use Examinr\Security\CsrfToken;
 
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -58,7 +60,15 @@ $request = Request::createFromGlobals();
  * Setup the session
  */
 session_set_cookie_params (0, '/', '.' . $request->getHost(), $request->isSecure(), true);
-$session = new Session();
+$pdoSessionStorage = new PdoSessionHandler($dbConnection, [
+    'db_id_col'       => 'id',
+    'db_data_col'     => 'data',
+    'db_lifetime_col' => 'lifetime',
+    'db_time_col'     => 'time',
+]);
+$pdoSessionBridge  = new PhpBridgeSessionStorage($pdoSessionStorage);
+$session           = new Session($pdoSessionBridge);
+session_start();
 
 /**
  * Setup the user object
