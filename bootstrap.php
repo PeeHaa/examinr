@@ -45,6 +45,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/init.deployment.php';
 
 /**
+ * Load the functions
+ */
+require_once __DIR__ . '/src/functions.php';
+
+/**
  * Prevent further execution when on CLI
  */
 if (php_sapi_name() === 'cli') {

@@ -78,6 +78,6 @@ class CsrfToken implements Token
      */
     public function validate($token)
     {
-        return $this->get() === $token;
+        return \Examinr\Security\compare($this->get(), $token);
     }
 }

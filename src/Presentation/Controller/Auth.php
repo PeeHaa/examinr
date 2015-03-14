@@ -82,7 +82,7 @@ class Auth
 
             $rememberMeData = $storage->getRememberMe($rememberMe['userId'], base64_decode($rememberMe['series']));
 
-            if ($rememberMeData && base64_decode($rememberMe['token']) === $rememberMeData['token']) {
+            if ($rememberMeData && \Examinr\Security\compare($rememberMeData['token'], base64_decode($rememberMe['token']))) {
                 $user->logInWithoutPassword($storage->getById($rememberMe['userId']));
 
                 $this->createRememberMeCookie($rememberMe['userId'], $storage, $generator, $request, base64_decode($rememberMe['series']));
@@ -96,7 +96,7 @@ class Auth
             // if we ever hit this it means something went proper wrong and the user might be compromised
             // when this happens we will go full panic mode and invalidate all user state including sessions end cookies
             // never go full retard
-            if ($rememberMeData && base64_decode($rememberMe['token']) !== $rememberMeData['token']) {
+            if ($rememberMeData && !\Examinr\Security\compare($rememberMeData['token'], base64_decode($rememberMe['token']))) {
                 $storage->invalidateUser($rememberMe['userId']);
             }
         }
