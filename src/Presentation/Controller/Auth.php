@@ -58,13 +58,49 @@ class Auth
      * Renders the log in page
      *
      * @param \Examinr\Presentation\Template\Html $template    The template renderer
+     * @param \Examinr\Network\Http\Request       $request     The HTTP request
+     * @param \Examinr\Storage\Sql\Auth           $storage     The auth storage
+     * @param \Examinr\Auth\User                  $user        The user object
      * @param \Examinr\Form\Implementation\Login  $form        The forgot password form
      * @param \Examinr\Form\Builder               $formBuilder The form builder
+     * @param \RandomLib\Generator                $generator   The random generator
      *
      * @return \Symfony\Component\HttpFoundation\Response The HTTP response
      */
-    public function logIn(Html $template, LoginForm $form, FormBuilder $formBuilder)
+    public function logIn(
+        Html $template,
+        Request $request,
+        Storage $storage,
+        User $user,
+        LoginForm $form,
+        FormBuilder $formBuilder,
+        Generator $generator
+    )
     {
+        if (isset($_COOKIE['rememberme'])) {
+            $rememberMe = json_decode(base64_decode($_COOKIE['rememberme']), true);
+
+            $rememberMeData = $storage->getRememberMe($rememberMe['userId'], base64_decode($rememberMe['series']));
+
+            if ($rememberMeData && base64_decode($rememberMe['token']) === $rememberMeData['token']) {
+                $user->logInWithoutPassword($storage->getById($rememberMe['userId']));
+
+                $this->createRememberMeCookie($rememberMe['userId'], $storage, $generator, $request, base64_decode($rememberMe['series']));
+
+                $this->response->setStatusCode(Response::HTTP_FOUND);
+                $this->response->headers->set('Location', $request->getSchemeAndHttpHost());
+
+                return $this->response;
+            }
+
+            // if we ever hit this it means something went proper wrong and the user might be compromised
+            // when this happens we will go full panic mode and invalidate all user state including sessions end cookies
+            // never go full retard
+            if ($rememberMeData && base64_decode($rememberMe['token']) !== $rememberMeData['token']) {
+                $storage->invalidateUser($rememberMe['userId']);
+            }
+        }
+
         $this->response->setContent($template->renderPage('/auth/login.phtml', [
             'barePage'    => true,
             'form'        => $form,
@@ -117,36 +153,56 @@ class Auth
         }
 
         if ($user->isLoggedIn() && $form['rememberme']->getValue()) {
-            $cookieData = [
-                'userId' => $userInfo['id'],
-                'series' => $generator->generate(32),
-                'token'  => $generator->generate(32),
-            ];
-
-            $storage->rememberMe($cookieData['userId'], $cookieData['series'], $cookieData['token']);
-
-            $datetime = new \DateTime();
-            $datetime->add(new \DateInterval('P30D'));
-
-            setcookie(
-                'rememberme',
-                base64_encode(json_encode([
-                    'userId' => $cookieData['userId'],
-                    'series' => base64_encode($cookieData['series']),
-                    'token'  => base64_encode($cookieData['token']),
-                ])),
-                $datetime->format('U'),
-                '/',
-                $request->getHost(),
-                $request->isSecure(),
-                true
-            );
+            $this->createRememberMeCookie($userInfo['id'], $storage, $generator, $request, $generator->generate(32));
         }
 
         $this->response->setStatusCode(Response::HTTP_FOUND);
         $this->response->headers->set('Location', $request->getSchemeAndHttpHost());
 
         return $this->response;
+    }
+
+    /**
+     * Creates the remember me cookie
+     *
+     * @param int                           $userId      The user id
+     * @param \Examinr\Storage\Sql\Auth     $storage     The auth storage
+     * @param \RandomLib\Generator          $generator   The random generator
+     * @param \Examinr\Network\Http\Request $request     The HTTP request
+     * @param string                        $seriesToken The series token
+     */
+    private function createRememberMeCookie(
+        $userId,
+        Storage $storage,
+        Generator $generator,
+        Request $request,
+        $seriesToken
+    )
+    {
+        $cookieData = [
+            'userId' => $userId,
+            'series' => $seriesToken,
+            'token'  => $generator->generate(32),
+        ];
+
+        $storage->rememberMe($cookieData['userId'], $cookieData['series'], $cookieData['token']);
+
+        $datetime = new \DateTime();
+        $datetime->add(new \DateInterval('P30D'));
+
+        setcookie(
+            'rememberme',
+            base64_encode(json_encode([
+                'userId' => $cookieData['userId'],
+                'series' => base64_encode($cookieData['series']),
+                'token'  => base64_encode($cookieData['token']),
+            ])),
+            $datetime->format('U'),
+            '/',
+            $request->getHost(),
+            $request->isSecure(),
+            true
+        );
     }
 
     /**

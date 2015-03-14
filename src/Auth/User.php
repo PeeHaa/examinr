@@ -88,9 +88,9 @@ class User
     /**
      * Logs a user in
      *
-     * @param string $email     The email address
-     * @param string $password  The password
-     * @param array  $recordset The user record
+     * @param string $email    The email address
+     * @param string $password The password
+     * @param array  $user     The user record
      *
      * @return bool True when the user successfully logged in
      */
@@ -100,11 +100,23 @@ class User
             return false;
         }
 
+        $this->logInWithoutPassword($user);
+
+        return true;
+    }
+
+    /**
+     * Logs a user in with passwordless authentication
+     *
+     * @param array $user The user record
+     *
+     * @return bool True when the user successfully logged in
+     */
+    public function logInWithoutPassword(array $user)
+    {
         $this->logOut();
 
         $this->session->set('user', $user);
-
-        return true;
     }
 
     /**

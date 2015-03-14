@@ -64,6 +64,27 @@ class Auth implements Sql
     }
 
     /**
+     * Gets a user by id
+     *
+     * @param int $id The id of the user
+     *
+     * @return array Containing the info of the user
+     */
+    public function getById($id)
+    {
+        $query = 'SELECT id, email, password, name';
+        $query.= ' FROM users';
+        $query.= ' WHERE id = :id';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        return $stmt->fetch();
+    }
+
+    /**
      * Updates the password of a user
      *
      * @param int    $id       The id of the user
@@ -186,8 +207,25 @@ class Auth implements Sql
         ]);
     }
 
+    /**
+     * Adds the remember me token to the database
+     *
+     * @param int    $userId      The id of the user for which to store the tokens
+     * @param string $seriesToken The random series token
+     * @param string $token       The random token
+     */
     public function rememberMe($userId, $seriesToken, $token)
     {
+        $query = 'DELETE FROM remember_me';
+        $query.= ' WHERE user_id = :userId';
+        $query.= ' AND series_token = :seriesToken';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId'      => $userId,
+            'seriesToken' => $seriesToken,
+        ]);
+
         $query = 'INSERT INTO remember_me';
         $query.= ' (user_id, series_token, token)';
         $query.= ' VALUES';
@@ -198,6 +236,52 @@ class Auth implements Sql
             'userId'      => $userId,
             'seriesToken' => $seriesToken,
             'token'       => $token,
+        ]);
+    }
+
+    /**
+     * Adds the remember me token to the database
+     *
+     * @param int    $userId      The id of the user for which to store the tokens
+     * @param string $seriesToken The random series token
+     */
+    public function getRememberMe($userId, $seriesToken)
+    {
+        $query = 'SELECT id, user_id, series_token, token';
+        $query.= ' FROM remember_me';
+        $query.= ' WHERE user_id = :userId';
+        $query.= ' AND series_token = :seriesToken';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId'      => $userId,
+            'seriesToken' => $seriesToken,
+        ]);
+
+        return $stmt->fetch();
+    }
+
+    /**
+     * Invalidates all user state including cookies and active sessions
+     *
+     * @param int $userId The id of the user to invalidate
+     */
+    public function invalidateUser($userId)
+    {
+        $query = 'DELETE FROM sessions';
+        $query.= ' WHERE user_id = :userId';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId' => $userId,
+        ]);
+
+        $query = 'DELETE FROM remember_me';
+        $query.= ' WHERE user_id = :userId';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId' => $userId,
         ]);
     }
 }
