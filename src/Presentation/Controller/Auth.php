@@ -27,6 +27,7 @@ use Examinr\Form\Implementation\ForgotPassword as ForgotPasswordForm;
 use Examinr\Form\Implementation\ResetPassword as ResetPasswordForm;
 use Examinr\I18n\Translator;
 use Examinr\Mail\Mailer;
+use RandomLib\Generator;
 
 /**
  * Auth controller
@@ -85,6 +86,7 @@ class Auth
      * @param \Examinr\Auth\User                  $user        The user object
      * @param \Examinr\Form\Implementation\Login  $form        The forgot password form
      * @param \Examinr\Form\Builder               $formBuilder The form builder
+     * @param \RandomLib\Generator                $generator   The random generator
      *
      * @return \Symfony\Component\HttpFoundation\Response The HTTP response
      */
@@ -94,7 +96,8 @@ class Auth
         Storage $storage,
         User $user,
         LoginForm $form,
-        FormBuilder $formBuilder
+        FormBuilder $formBuilder,
+        Generator $generator
     )
     {
         $form->bindRequest($request);
@@ -111,6 +114,33 @@ class Auth
 
         if ($user->needsRehash()) {
             $storage->updatePasswordById($userInfo['id'], $user->rehash($request->request->get('email')));
+        }
+
+        if ($user->isLoggedIn() && $form['rememberme']->getValue()) {
+            $cookieData = [
+                'userId' => $userInfo['id'],
+                'series' => $generator->generate(32),
+                'token'  => $generator->generate(32),
+            ];
+
+            $storage->rememberMe($cookieData['userId'], $cookieData['series'], $cookieData['token']);
+
+            $datetime = new \DateTime();
+            $datetime->add(new \DateInterval('P30D'));
+
+            setcookie(
+                'rememberme',
+                base64_encode(json_encode([
+                    'userId' => $cookieData['userId'],
+                    'series' => base64_encode($cookieData['series']),
+                    'token'  => base64_encode($cookieData['token']),
+                ])),
+                $datetime->format('U'),
+                '/',
+                $request->getHost(),
+                $request->isSecure(),
+                true
+            );
         }
 
         $this->response->setStatusCode(Response::HTTP_FOUND);

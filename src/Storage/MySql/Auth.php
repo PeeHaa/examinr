@@ -185,4 +185,19 @@ class Auth implements Sql
             'password' => $password,
         ]);
     }
+
+    public function rememberMe($userId, $seriesToken, $token)
+    {
+        $query = 'INSERT INTO remember_me';
+        $query.= ' (user_id, series_token, token)';
+        $query.= ' VALUES';
+        $query.= ' (:userId, :seriesToken, :token)';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId'      => $userId,
+            'seriesToken' => $seriesToken,
+            'token'       => $token,
+        ]);
+    }
 }
