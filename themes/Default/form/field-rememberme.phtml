@@ -1,0 +1,10 @@
+<div class="form-group" <?php if($this->field->hasErrors()) echo 'has-error' ?>">
+    <div class="col-lg-9 col-lg-offset-3">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="<?= $this->name; ?>" value="1"> <?= $this->translate($this->namespace . '.' . $this->name); ?>
+            </label>
+            <a href="/forgot-password" class="pull-right"><?= $this->translate('login.form.field.forgot-password'); ?></a>
+        </div>
+    </div>
+</div>

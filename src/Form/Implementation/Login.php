@@ -39,5 +39,8 @@ class Login extends AbstractForm
         $this->fieldset->addField('password', 'password', [
             'required' => true,
         ]);
+
+        $this->fieldset->addField('rememberme', 'rememberme', [
+        ]);
     }
 }
