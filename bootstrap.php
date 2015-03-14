@@ -19,7 +19,7 @@ use Examinr\I18n\FileTranslator;
 use Examinr\Router\FrontController;
 use Examinr\Security\CsrfToken;
 
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Examinr\Storage\Http\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
