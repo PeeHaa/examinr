@@ -47,7 +47,7 @@ interface Cookie
     public function set($data, $exipration);
 
     /**
-     * Unsets the cookie
+     * Invalidate the cookie
      */
-    public function unset();
+    public function invalidate();
 }
