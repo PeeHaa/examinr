@@ -32,6 +32,13 @@ date_default_timezone_set('Europe/Amsterdam');
 $reloadRoutes = true;
 
 /**
+ * Setup the private key
+ *
+ * This should be changed on installation. Below is a dummy key
+ */
+$privateKey = 'DVG0KAZv45/G2U6V20aWra07luHi3thlS+jCsq0BKGQ=';
+
+/**
  * Setup database connection
  */
 $dbConnection = new \PDO('mysql:dbname=examinr;host=127.0.0.1;charset=utf8', 'root', '');
