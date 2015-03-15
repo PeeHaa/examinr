@@ -67,6 +67,14 @@
         1 => 'doInfo',
       ),
     ),
+    '/settings/auth-log' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\User',
+        1 => 'authLog',
+      ),
+    ),
     '/projects' => 
     array (
       'GET' => 

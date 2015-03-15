@@ -193,4 +193,25 @@ class User
 
         return $this->response;
     }
+
+    /**
+     * Renders the authentication log page
+     *
+     * @param \Examinr\Presentation\Template\Html $template A HTML template renderer
+     * @param \Examinr\Storage\MySql\User         $storage  The user storage
+     * @param \Examinr\Auth\User                  $user     The user object
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The HTTP response
+     */
+    public function authLog(Html $template, Storage $storage, Auth $user)
+    {
+        $this->response->setContent($template->renderPage('/user/auth-log.phtml', [
+            'recordset' => $storage->getAuthLog($user->id),
+        ]));
+
+        $this->response->setStatusCode(Response::HTTP_OK);
+        $this->response->headers->set('Content-Type', 'text/html');
+
+        return $this->response;
+    }
 }

@@ -41,6 +41,7 @@ if (!$user->isLoggedIn()) {
         ->post('/settings/users/add', ['Examinr\Presentation\Controller\User', 'doAdd'])
         ->get('/settings/user-info', ['Examinr\Presentation\Controller\User', 'info'])
         ->post('/settings/user-info', ['Examinr\Presentation\Controller\User', 'doInfo'])
+        ->get('/settings/auth-log', ['Examinr\Presentation\Controller\User', 'authLog'])
 
         ->get('/tasks/{commit}', ['Examinr\Presentation\Controller\Task', 'result'])
 

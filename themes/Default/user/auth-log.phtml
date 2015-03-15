@@ -1,0 +1,22 @@
+<p>Some nice way to go to the <a href="/settings/users/add">new user page</a>.</p>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Type</th>
+            <th>IP address</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->recordset as $index => $record) { ?>
+            <tr>
+                <td><span class="label label-<?php echo $record['status'] === 'success' ? 'success' : 'danger'; ?>"><?= $this->escape($record['status']); ?></span></td>
+                <td><?= $this->escape($record['type']); ?></td>
+                <td><?= $this->escape($record['ip']); ?></td>
+                <?php $timestamp = new \DateTime($record['timestamp']); ?>
+                <td><?php echo $timestamp->format('d-m-Y H:i:s'); ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>

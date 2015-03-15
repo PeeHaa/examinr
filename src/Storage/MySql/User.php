@@ -112,4 +112,27 @@ class User implements Sql
 
         $stmt->execute($params);
     }
+
+    /**
+     * Gets the authentication log of the user
+     *
+     * @param int $userId The user id
+     *
+     * @return array The authentication log
+     */
+    public function getAuthLog($userId)
+    {
+        $query = 'SELECT id, status, type, ip, timestamp';
+        $query.= ' FROM auth_log';
+        $query.= ' WHERE user_id = :userId';
+        $query.= ' ORDER BY id DESC';
+        $query.= ' LIMIT 0, 100';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId' => $userId,
+        ]);
+
+        return $stmt->fetchAll();
+    }
 }
