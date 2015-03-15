@@ -27,7 +27,7 @@ use Examinr\Form\Implementation\ForgotPassword as ForgotPasswordForm;
 use Examinr\Form\Implementation\ResetPassword as ResetPasswordForm;
 use Examinr\I18n\Translator;
 use Examinr\Mail\Mailer;
-use RandomLib\Generator;
+use Examinr\Storage\Http\RememberMe;
 
 /**
  * Auth controller
@@ -63,7 +63,7 @@ class Auth
      * @param \Examinr\Auth\User                  $user        The user object
      * @param \Examinr\Form\Implementation\Login  $form        The forgot password form
      * @param \Examinr\Form\Builder               $formBuilder The form builder
-     * @param \RandomLib\Generator                $generator   The random generator
+     * @param \Examinr\Storage\Http\RememberMe    $cookie      The remember me cookie
      *
      * @return \Symfony\Component\HttpFoundation\Response The HTTP response
      */
@@ -74,18 +74,19 @@ class Auth
         User $user,
         LoginForm $form,
         FormBuilder $formBuilder,
-        Generator $generator
+        RememberMe $cookie
     )
     {
-        if (isset($_COOKIE['rememberme'])) {
-            $rememberMe = json_decode(base64_decode($_COOKIE['rememberme']), true);
+        if ($cookie->exists()) {
+            $cookieData = $cookie->get();
+            $storedData = $storage->getRememberMe($cookieData['userId'], $cookieData['series']);
 
-            $rememberMeData = $storage->getRememberMe($rememberMe['userId'], base64_decode($rememberMe['series']));
+            if ($storedData && \Examinr\Security\compare($storedData['token'], $cookieData['token'])) {
+                $user->logInWithoutPassword($storage->getById($cookieData['userId']));
 
-            if ($rememberMeData && \Examinr\Security\compare($rememberMeData['token'], base64_decode($rememberMe['token']))) {
-                $user->logInWithoutPassword($storage->getById($rememberMe['userId']));
+                $newData = $cookie->update();
 
-                $this->createRememberMeCookie($rememberMe['userId'], $storage, $generator, $request, base64_decode($rememberMe['series']));
+                $storage->rememberMe($newData['userId'], $newData['series'], $newData['token']);
 
                 $this->response->setStatusCode(Response::HTTP_FOUND);
                 $this->response->headers->set('Location', $request->getSchemeAndHttpHost());
@@ -96,8 +97,8 @@ class Auth
             // if we ever hit this it means something went proper wrong and the user might be compromised
             // when this happens we will go full panic mode and invalidate all user state including sessions end cookies
             // never go full retard
-            if ($rememberMeData && !\Examinr\Security\compare($rememberMeData['token'], base64_decode($rememberMe['token']))) {
-                $storage->invalidateUser($rememberMe['userId']);
+            if ($storedData && !\Examinr\Security\compare($storedData['token'], $cookieData['token'])) {
+                $storage->invalidateUser($storedData['userId']);
             }
         }
 
@@ -122,7 +123,7 @@ class Auth
      * @param \Examinr\Auth\User                  $user        The user object
      * @param \Examinr\Form\Implementation\Login  $form        The forgot password form
      * @param \Examinr\Form\Builder               $formBuilder The form builder
-     * @param \RandomLib\Generator                $generator   The random generator
+     * @param \Examinr\Storage\Http\RememberMe    $cookie      The remember me cookie
      *
      * @return \Symfony\Component\HttpFoundation\Response The HTTP response
      */
@@ -133,7 +134,7 @@ class Auth
         User $user,
         LoginForm $form,
         FormBuilder $formBuilder,
-        Generator $generator
+        RememberMe $cookie
     )
     {
         $form->bindRequest($request);
@@ -153,56 +154,15 @@ class Auth
         }
 
         if ($user->isLoggedIn() && $form['rememberme']->getValue()) {
-            $this->createRememberMeCookie($userInfo['id'], $storage, $generator, $request, $generator->generate(32));
+            $newData = $cookie->create($userInfo['id']);
+
+            $storage->rememberMe($newData['userId'], $newData['series'], $newData['token']);
         }
 
         $this->response->setStatusCode(Response::HTTP_FOUND);
         $this->response->headers->set('Location', $request->getSchemeAndHttpHost());
 
         return $this->response;
-    }
-
-    /**
-     * Creates the remember me cookie
-     *
-     * @param int                           $userId      The user id
-     * @param \Examinr\Storage\Sql\Auth     $storage     The auth storage
-     * @param \RandomLib\Generator          $generator   The random generator
-     * @param \Examinr\Network\Http\Request $request     The HTTP request
-     * @param string                        $seriesToken The series token
-     */
-    private function createRememberMeCookie(
-        $userId,
-        Storage $storage,
-        Generator $generator,
-        Request $request,
-        $seriesToken
-    )
-    {
-        $cookieData = [
-            'userId' => $userId,
-            'series' => $seriesToken,
-            'token'  => $generator->generate(32),
-        ];
-
-        $storage->rememberMe($cookieData['userId'], $cookieData['series'], $cookieData['token']);
-
-        $datetime = new \DateTime();
-        $datetime->add(new \DateInterval('P30D'));
-
-        setcookie(
-            'rememberme',
-            base64_encode(json_encode([
-                'userId' => $cookieData['userId'],
-                'series' => base64_encode($cookieData['series']),
-                'token'  => base64_encode($cookieData['token']),
-            ])),
-            $datetime->format('U'),
-            '/',
-            $request->getHost(),
-            $request->isSecure(),
-            true
-        );
     }
 
     /**
