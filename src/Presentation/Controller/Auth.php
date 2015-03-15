@@ -88,6 +88,8 @@ class Auth
 
                 $storage->rememberMe($newData['userId'], $newData['series'], $newData['token']);
 
+                $storage->logAuthentication($newData['userId'], true, 'cookie', $request->getClientIp());
+
                 $this->response->setStatusCode(Response::HTTP_FOUND);
                 $this->response->headers->set('Location', $request->getSchemeAndHttpHost());
 
@@ -99,6 +101,8 @@ class Auth
             // never go full retard
             if ($storedData && !\Examinr\Security\compare($storedData['token'], $cookieData['token'])) {
                 $storage->invalidateUser($storedData['userId']);
+
+                $storage->logAuthentication($newData['userId'], false, 'cookie', $request->getClientIp());
             }
         }
 
@@ -151,6 +155,10 @@ class Auth
 
         if ($user->needsRehash()) {
             $storage->updatePasswordById($userInfo['id'], $user->rehash($request->request->get('email')));
+        }
+
+        if ($user->isLoggedIn()) {
+            $storage->logAuthentication($userInfo['id'], true, 'standard', $request->getClientIp());
         }
 
         if ($user->isLoggedIn() && $form['rememberme']->getValue()) {

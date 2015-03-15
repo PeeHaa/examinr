@@ -284,4 +284,28 @@ class Auth implements Sql
             'userId' => $userId,
         ]);
     }
+
+    /**
+     * Logs an authentication attempt
+     *
+     * @param int    $userId  The id of the user
+     * @param bool   $success Whether the authentication succeeded
+     * @param string $type    The type of the authentication (either standard or cookie)
+     * @param string $ip      The originating IP address
+     */
+    public function logAuthentication($userId, $success, $type, $ip)
+    {
+        $query = 'INSERT INTO auth_log';
+        $query.= ' (user_id, status, type, ip)';
+        $query.= ' VALUES';
+        $query.= ' (:userId, :status, :type, :ip)';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute([
+            'userId' => $userId,
+            'status' => $success ? 'success' : 'failed',
+            'type'   => $type,
+            'ip'     => $ip,
+        ]);
+    }
 }
