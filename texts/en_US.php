@@ -14,6 +14,7 @@ $texts = [
     'navigation.item.settings.users'                                    => 'Users',
     'navigation.item.settings.maintenance'                              => 'Maintenance',
     'navigation.item.settings.userinfo'                                 => 'User info',
+    'navigation.item.settings.authlog'                                  => 'Authentication log',
     'navigation.item.settings.logout'                                   => 'Log out',
 
     'form.error.required'                                               => 'This is a required field',

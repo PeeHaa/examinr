@@ -27,6 +27,7 @@
                                         <li><a href="#"><?= $this->translate('navigation.item.settings.maintenance'); ?></a></li>
                                         <li class="divider"></li>
                                         <li <?php if ($this->request->matches('/settings/user-info')) echo 'class="active"'; ?>><a href="/settings/user-info"><?= $this->translate('navigation.item.settings.userinfo'); ?></a></li>
+                                        <li <?php if ($this->request->matches('/settings/auth-log')) echo 'class="active"'; ?>><a href="/settings/auth-log"><?= $this->translate('navigation.item.settings.authlog'); ?></a></li>
                                         <li class="divider"></li>
                                         <li>
                                             <form action="/logout" method="post">
