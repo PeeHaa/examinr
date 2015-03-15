@@ -77,7 +77,7 @@ class Auth
         RememberMe $cookie
     )
     {
-        if ($cookie->exists()) {
+        if ($cookie->isValid()) {
             $cookieData = $cookie->get();
             $storedData = $storage->getRememberMe($cookieData['userId'], $cookieData['series']);
 

@@ -128,7 +128,7 @@ $injector = new Provider();
 $injector->define('Examinr\\Mail\\Mailer', [':mailer' => $swiftMailer]);
 $injector->define('Examinr\\Form\\Builder', ['template' => 'Examinr\\Presentation\\Template\\Html']);
 $injector->define('Examinr\\Presentation\\Template\\Html', [':basePage' => '/page.phtml']);
-$injector->define('Examinr\\Storage\\Http\\RememberMe', [':cookies' => $_COOKIE]);
+$injector->define('Examinr\\Storage\\Http\\RememberMe', [':cookies' => $_COOKIE, ':key' => $privateKey]);
 $injector->alias('Examinr\\Presentation\\Theme\\Loader', get_class($theme));
 $injector->share($request);
 $injector->share($theme);

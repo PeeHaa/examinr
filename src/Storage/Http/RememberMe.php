@@ -53,17 +53,24 @@ class RememberMe implements Cookie
     private $request;
 
     /**
+     * @var string $key The key used to sign the cookie
+     */
+    private $key;
+
+    /**
      * Creates instance
      *
      * @param array                         $cookies   The data of the cookies
      * @param \RandomLib\Generator          $generator The random generator
      * @param \Examinr\Network\Http\Request $request   The request object
+     * @param string                        $key       The key used to sign the cookie
      */
-    public function __construct(array $cookies, Generator $generator, Request $request)
+    public function __construct(array $cookies, Generator $generator, Request $request, $key)
     {
         $this->cookies   = $cookies;
         $this->generator = $generator;
         $this->request   = $request;
+        $this->key       = $key;
     }
 
     /**
@@ -77,13 +84,31 @@ class RememberMe implements Cookie
     }
 
     /**
+     * Checks whether the cookie is valid
+     *
+     * @return bool True when the cookie is valid
+     */
+    public function isValid()
+    {
+        if (!$this->exists()) {
+            return false;
+        }
+
+        list($data, $signature) = explode(':', $this->cookies[self::NAME]);
+
+        return $this->isSignatureValid($data, $signature);
+    }
+
+    /**
      * Gets the cookie data
      *
      * @return mixed The parsed cookie data
      */
     public function get()
     {
-        return $this->parseData($this->cookies[self::NAME]);
+        $data = explode(':', $this->cookies[self::NAME]);
+
+        return $this->parseData($data[0]);
     }
 
     /**
@@ -94,6 +119,8 @@ class RememberMe implements Cookie
      */
     public function set($data, $exipration)
     {
+        $data = $data . ':' . $this->generateSignature($data);
+
         setcookie(self::NAME, $data, $exipration, '/', $this->request->getHost(), $this->request->isSecure(), true);
     }
 
@@ -180,5 +207,30 @@ class RememberMe implements Cookie
         $datetime->add(new \DateInterval(self::LIFETIME));
 
         return $datetime->format('U');
+    }
+
+    /**
+     * Generates a signature based on the cookie data
+     *
+     * @param string $data The data of the cookie
+     *
+     * @return string The cookie signature
+     */
+    private function generateSignature($data)
+    {
+        return hash_hmac('sha256', $data, $this->key);
+    }
+
+    /**
+     * Checks whether the signature is valid
+     *
+     * @param string $data      The data of which the signature is based
+     * @param string $signature The signature to match against
+     *
+     * @return bool True when the signature is valid
+     */
+    private function isSignatureValid($data, $signature)
+    {
+        return $signature === hash_hmac('sha256', $data, $this->key);
     }
 }
