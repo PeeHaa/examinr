@@ -25,6 +25,13 @@ namespace Examinr\Storage\Http;
 interface Cookie
 {
     /**
+     * Checks whether the cookie exists
+     *
+     * @return bool True when it exists
+     */
+    public function exists();
+
+    /**
      * Gets the cookie data
      *
      * @return mixed The parsed cookie data
