@@ -33,6 +33,14 @@
         1 => 'index',
       ),
     ),
+    '/settings/maintenance' => 
+    array (
+      'GET' => 
+      array (
+        0 => 'Examinr\\Presentation\\Controller\\Maintenance',
+        1 => 'overview',
+      ),
+    ),
     '/settings/users' => 
     array (
       'GET' => 

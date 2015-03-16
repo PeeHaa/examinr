@@ -24,7 +24,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="#"><?= $this->translate('navigation.item.settings.add-project'); ?></a></li>
                                         <li <?php if ($this->request->matches('/settings/users')) echo 'class="active"'; ?>><a href="/settings/users"><?= $this->translate('navigation.item.settings.users'); ?></a></li>
-                                        <li><a href="#"><?= $this->translate('navigation.item.settings.maintenance'); ?></a></li>
+                                        <li <?php if ($this->request->matches('/settings/maintenance')) echo 'class="active"'; ?>><a href="/settings/maintenance"><?= $this->translate('navigation.item.settings.maintenance'); ?></a></li>
                                         <li class="divider"></li>
                                         <li <?php if ($this->request->matches('/settings/user-info')) echo 'class="active"'; ?>><a href="/settings/user-info"><?= $this->translate('navigation.item.settings.userinfo'); ?></a></li>
                                         <li <?php if ($this->request->matches('/settings/auth-log')) echo 'class="active"'; ?>><a href="/settings/auth-log"><?= $this->translate('navigation.item.settings.authlog'); ?></a></li>

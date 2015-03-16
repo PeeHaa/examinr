@@ -36,6 +36,8 @@ if (!$user->isLoggedIn()) {
 
         ->get('/', ['Examinr\Presentation\Controller\Index', 'index'])
 
+        ->get('/settings/maintenance', ['Examinr\Presentation\Controller\Maintenance', 'overview'])
+
         ->get('/settings/users', ['Examinr\Presentation\Controller\User', 'overview'])
         ->get('/settings/users/add', ['Examinr\Presentation\Controller\User', 'add'])
         ->post('/settings/users/add', ['Examinr\Presentation\Controller\User', 'doAdd'])
